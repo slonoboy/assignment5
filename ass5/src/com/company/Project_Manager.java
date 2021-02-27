@@ -1,7 +1,7 @@
 package com.company;
 
-public class Project_Manager extends Administrator implements Creation, Management{
-    protected String position = "Project manager";
+public class Project_Manager extends Administrator implements Interface{
+
 
     Project_Manager(){
 
@@ -11,16 +11,19 @@ public class Project_Manager extends Administrator implements Creation, Manageme
         this.salary = salary;
         this.name = name;
         this.surname = surname;
+        position = "Project manager";
     }
 
     Project_Manager(String name, String surname){
         this.salary = 25000;
         this.name = name;
         this.surname = surname;
+        position = "Project manager";
     }
 
+
     @Override
-    public String manage(){
-        return super.manage() + " and planning";
+    public String SomeAction(){
+        return super.SomeAction() + " and planning";
     }
 }

@@ -6,15 +6,15 @@ import java.sql.*;
 public class Queries {
     private String chosen_table;
 
-    public void setChosen_table(String name){
+    public void setChosen_table(String name) {
         chosen_table = name;
     }
 
-    public String getChosen_table(){
+    public String getChosen_table() {
         return chosen_table;
     }
 
-    public boolean check_connection(){
+    public boolean check_connection() {
         String connectionUrl = "jdbc:postgresql://localhost/Projects";
         Connection con = null;
         Statement stmt = null;
@@ -24,22 +24,20 @@ public class Queries {
             stmt = con.createStatement();
             stmt.executeQuery("select 1 from " + chosen_table);
             System.out.println("Available tables:");
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return false;
-        }
-        finally {
-            try{
+        } finally {
+            try {
                 stmt.close();
                 con.close();
-            }
-            catch (SQLException throwables){
+            } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         }
         return true;
     }
-    public void show_tables(){
+
+    public void show_tables() {
         String connectionUrl = "jdbc:postgresql://localhost/Projects";
         Connection con = null;
         ResultSet rs = null;
@@ -53,23 +51,21 @@ public class Queries {
                     "WHERE schemaname != 'pg_catalog' AND \n" +
                     "    schemaname != 'information_schema';");
             while (rs.next())
-                System.out.println("* " + rs.getString("tablename")  + " *");
-        }
-        catch (Exception e){
+                System.out.println("* " + rs.getString("tablename") + " *");
+        } catch (Exception e) {
             System.out.println(e);
-        }
-        finally {
-            try{
+        } finally {
+            try {
                 rs.close();
                 stmt.close();
                 con.close();
-            }
-            catch (SQLException throwables){
+            } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         }
     }
-    public void add_project(String name){
+
+    public void add_project(String name) {
         String connectionUrl = "jdbc:postgresql://localhost/Projects";
         Connection con = null;
         Statement stmt = null;
@@ -77,27 +73,24 @@ public class Queries {
             Class.forName("org.postgresql.Driver");
             con = DriverManager.getConnection(connectionUrl, "postgres", "230801");
             stmt = con.createStatement();
-            stmt.executeQuery("create table " +name + "(id serial,\n" +
+            stmt.executeQuery("create table " + name + "(id serial,\n" +
                     " firstname varchar not null,\n" +
                     " lastname varchar not null,\n" +
                     " position varchar not null,\n" +
                     " salary int not null)");
-        }
-        catch (Exception e){
-            System.out.println(e);
-        }
-        finally {
-            try{
+        } catch (Exception e) {
+            System.out.println("The project was successfully created!");
+        } finally {
+            try {
                 stmt.close();
                 con.close();
-            }
-            catch (SQLException throwables){
+            } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         }
     }
 
-    public void remove_project(String table){
+    public void remove_project(String table) {
         String connectionUrl = "jdbc:postgresql://localhost/Projects";
         Connection con = null;
         Statement stmt = null;
@@ -106,22 +99,19 @@ public class Queries {
             con = DriverManager.getConnection(connectionUrl, "postgres", "230801");
             stmt = con.createStatement();
             stmt.executeQuery("drop table " + table);
-        }
-        catch (Exception e){
-            System.out.println(e);
-        }
-        finally {
-            try{
+        } catch (Exception e) {
+            System.out.println("The project was successfully deleted!");
+        } finally {
+            try {
                 stmt.close();
                 con.close();
-            }
-            catch (SQLException throwables){
+            } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         }
     }
 
-    public void add_row(String table, String firstname, String lastname, String position, int salary){
+    public void add_row(String table, String firstname, String lastname, String position, int salary) {
         String connectionUrl = "jdbc:postgresql://localhost/Projects";
         Connection con = null;
         Statement stmt = null;
@@ -129,23 +119,20 @@ public class Queries {
             Class.forName("org.postgresql.Driver");
             con = DriverManager.getConnection(connectionUrl, "postgres", "230801");
             stmt = con.createStatement();
-            stmt.executeQuery("insert into "+ table +" values (default, '" + firstname + "', '" + lastname+ "', '" + position +"', '" +  salary +"')");
-        }
-        catch (Exception e){
-            System.out.println(e);
-        }
-        finally {
-            try{
+            stmt.executeQuery("insert into " + table + " values (default, '" + firstname + "', '" + lastname + "', '" + position + "', '" + salary + "')");
+        } catch (Exception e) {
+            System.out.println("The row was successfully created!");
+        } finally {
+            try {
                 stmt.close();
                 con.close();
-            }
-            catch (SQLException throwables){
+            } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         }
     }
 
-    public void remove_row(String table, int id){
+    public void remove_row(String table, int id) {
         String connectionUrl = "jdbc:postgresql://localhost/Projects";
         Connection con = null;
         Statement stmt = null;
@@ -154,22 +141,19 @@ public class Queries {
             con = DriverManager.getConnection(connectionUrl, "postgres", "230801");
             stmt = con.createStatement();
             stmt.executeQuery("delete from " + table + " where id = " + id);
-        }
-        catch (Exception e){
-            System.out.println(e);
-        }
-        finally {
-            try{
+        } catch (Exception e) {
+            System.out.println("The row was successfully deleted!");
+        } finally {
+            try {
                 stmt.close();
                 con.close();
-            }
-            catch (SQLException throwables){
+            } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         }
     }
 
-    public void edit_row(String table, int id, String firstname, String lastname, String position, int salary ){
+    public void edit_row(String table, int id, String firstname, String lastname, String position, int salary) {
         String connectionUrl = "jdbc:postgresql://localhost/Projects";
         Connection con = null;
         Statement stmt = null;
@@ -177,24 +161,21 @@ public class Queries {
             Class.forName("org.postgresql.Driver");
             con = DriverManager.getConnection(connectionUrl, "postgres", "230801");
             stmt = con.createStatement();
-            stmt.executeQuery("update "+ table +" set firstname = '"+firstname+"', lastname = '"+lastname+"', position = '"+position+"', salary = '"+salary+"' where id = "+id);
-        }
-        catch (Exception e){
-            System.out.println("Values with id = "+id+" were edited!");
-        }
-        finally {
-            try{
+            stmt.executeQuery("update " + table + " set firstname = '" + firstname + "', lastname = '" + lastname + "', position = '" + position + "', salary = '" + salary + "' where id = " + id);
+        } catch (Exception e) {
+            System.out.println("Values with id = " + id + " were successfully edited!");
+        } finally {
+            try {
                 stmt.close();
                 con.close();
-            }
-            catch (SQLException throwables){
+            } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         }
 
     }
 
-    public void show_table(String table){
+    public void show_table(String table) {
         String connectionUrl = "jdbc:postgresql://localhost/Projects";
         Connection con = null;
         ResultSet rs = null;
@@ -207,23 +188,20 @@ public class Queries {
             System.out.println("ID  Name  Surname  Position  Salary");
             while (rs.next())
                 System.out.println("|" + rs.getInt("id") + "| |" + rs.getString("firstname") + "| |" + rs.getString("lastname") + "| |" + rs.getString("position") + "| |" + rs.getString("salary") + "|");
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
-        }
-        finally {
-            try{
+        } finally {
+            try {
                 rs.close();
                 stmt.close();
                 con.close();
-            }
-            catch (SQLException throwables){
+            } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         }
     }
 
-    public void show_row(String table, int id){
+    public void show_row(String table, int id) {
         String connectionUrl = "jdbc:postgresql://localhost/Projects";
         Connection con = null;
         ResultSet rs = null;
@@ -232,23 +210,47 @@ public class Queries {
             Class.forName("org.postgresql.Driver");
             con = DriverManager.getConnection(connectionUrl, "postgres", "230801");
             stmt = con.createStatement();
-            rs = stmt.executeQuery("select * from "+table+" where id = " + id);
+            rs = stmt.executeQuery("select * from " + table + " where id = " + id);
             System.out.println("ID  Name  Surname  Position  Salary");
             while (rs.next())
                 System.out.println("|" + rs.getInt("id") + "| |" + rs.getString("firstname") + "| |" + rs.getString("lastname") + "| |" + rs.getString("position") + "| |" + rs.getString("salary") + "|");
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
-        }
-        finally {
-            try{
+        } finally {
+            try {
                 rs.close();
                 stmt.close();
                 con.close();
-            }
-            catch (SQLException throwables){
+            } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
+        }
+    }
+
+    public int budget(String table) {
+        String connectionUrl = "jdbc:postgresql://localhost/Projects";
+        Connection con = null;
+        ResultSet rs = null;
+        Statement stmt = null;
+        int sum = 0;
+        try {
+            Class.forName("org.postgresql.Driver");
+            con = DriverManager.getConnection(connectionUrl, "postgres", "230801");
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("select salary from " + table);
+            while (rs.next())
+                sum += rs.getInt("salary");
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                con.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            return sum;
         }
     }
 }
